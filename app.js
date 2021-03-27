@@ -3,14 +3,22 @@ const express = require("express");
 const userRoutes = require("./routes/userRoutes");
 //Cors Middleware
 const cors = require("cors");
-
+//database require
 const db = require("./db/models");
+//passport signin authentication
+const passport = require("passport");
+//Passport Strategies
+const { localStrategy } = require("./middleware/passport");
 
 //start app
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+//passport setup
+app.use(passport.initialize());
+passport.use(localStrategy);
 
 // assign routes to url
 app.use(userRoutes);
