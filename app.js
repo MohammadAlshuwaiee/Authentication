@@ -8,7 +8,7 @@ const db = require("./db/models");
 //passport signin authentication
 const passport = require("passport");
 //Passport Strategies
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 //start app
 const app = express();
@@ -19,6 +19,7 @@ app.use(express.json());
 //passport setup
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 
 // assign routes to url
 app.use(userRoutes);

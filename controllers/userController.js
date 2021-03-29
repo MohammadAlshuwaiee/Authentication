@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 
 // Database
 const { User } = require("../db/models");
-
+// jwt Token
 const jwt = require("jsonwebtoken");
 
 //Keys
@@ -23,7 +23,7 @@ exports.signup = async (req, res, next) => {
     };
     // res.status(201).json({ message: "User created successfully" });
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
-    res.status(201).json({ token });
+    res.status(201).json({ token: token });
   } catch (error) {
     next(error);
   }
@@ -34,8 +34,8 @@ exports.signin = async (req, res) => {
   const payload = {
     id: user.id,
     username: user.username,
-    exp: Date.now() + JWT_EXPIRATION_MS,
+    exp: Date.now() + JWT_EXPIRATION_MS, // token will expire after 15 minutes
   };
   const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
-  res.json({ token });
+  res.status(201).json({ token: token });
 };
